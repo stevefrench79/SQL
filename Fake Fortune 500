@@ -1,0 +1,48 @@
+SELECT *
+FROM fortune_companies;
+
+--*Group the data in a new way using a CASE statement
+
+--Divide companies up into 3 groups based on revenue. high revenue greater than 300, average revenue from 200 to 300, and low revenue for the remaining.
+
+SELECT company_name AS [Company Name],
+CASE WHEN revenue > 300 THEN "High Revenue"
+WHEN revenue >= 200 THEN "Average Revenue"
+ELSE "Low Revenue"
+END AS [Revenue Category], revenue AS [Revenue in Billions]
+FROM fortune_companies
+ORDER BY revenue DESC;
+
+--*Use a HAVING clause to determine something interesting about the data per category
+
+--average paid days off per industry having an average of 14 days or more
+
+SELECT industry AS [Industry], ROUND(AVG(paid_time_off_days), 1) AS [Average Paid Days Off]
+FROM fortune_companies
+GROUP BY industry
+HAVING AVG(paid_time_off_days) >= 14
+ORDER BY AVG(paid_time_off_days) DESC;
+
+--*Use logical operators like AND or OR to filter the data in an interesting way
+
+--list companies with a revenue of 300B or more that that offer 3 weeks or more paid time off
+
+SELECT company_name AS [Company Name], revenue AS [Revenue], paid_time_off_days AS [Paid Days Off]
+FROM fortune_companies
+WHERE revenue >= 300
+AND paid_time_off_days >= 21
+ORDER BY revenue DESC;
+
+--*Use an aggregate function like AVG, SUM, COUNT, MAX, and/or MIN to return summary statistics about the data
+
+--show just the highest and lowest revenues for the fake fortune 500 companies
+
+SELECT MIN(revenue) AS [Lowest Revenue in Billions], MAX(revenue) AS [Highest Revenue in Billions]
+FROM fortune_companies;
+
+--how many of the top 43 fake fortune 500 companies offer healthcare?
+
+SELECT COUNT(healthcare_benefits) AS [Total Companies Offering Healthcare]
+FROM fortune_companies
+WHERE healthcare_benefits = 1;
+
