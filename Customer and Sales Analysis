@@ -1,0 +1,6 @@
+--8.List all the products sold in Los Angeles in February, and include how many of each were sold.
+
+SELECT DISTINCT Product, SUM(quantity)
+FROM BIT_DB.Febsales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY product;
