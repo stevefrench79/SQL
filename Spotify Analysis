@@ -82,3 +82,17 @@ FROM BIT_DB.Spotifydata
 ORDER BY liveness DESC
 LIMIT 10;
 
+--Calculate the average popularity for the artists in the Spotify data table. Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”
+--Use a CTE
+
+WITH star_rank AS (SELECT spfy.artist_name,
+AVG(spfy.popularity) AS average_popularity
+FROM Spotifydata spfy
+GROUP BY spfy.artist_name)
+
+SELECT artist_name, average_popularity, "Top Star" AS "Tag"
+FROM star_rank
+WHERE average_popularity >= 90
+ORDER BY average_popularity DESC;
+
+
